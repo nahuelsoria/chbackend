@@ -86,18 +86,3 @@ class ProductManager {
 }
 
 const producto = new ProductManager();
-
-
-console.log(producto.getProducts());
-producto.addProduct("abc1234",'producto prueba', 'sin imagen','25','200', 'Este es un producto prueba'); //2) Agrega producto al arreglo si no existe. El objeto debe agregarse satisfactoriamente con un id generado automáticamente SIN REPETIRSE
-console.log(producto.getProducts());
-producto.addProduct("123546213123",'producto prueba', 'sin imagen','25','200', 'Este es un producto prueba'); //2) Agrega producto al arreglo si no existe. El objeto debe agregarse satisfactoriamente con un id generado automáticamente SIN REPETIRSE
-console.log("Producto por ID:", producto.getProductById(2));
-//producto.deleteProduct(1)
-//console.log(producto.getProducts());
-
-// Agregar productos OK
-// getProducts ok
-// getgetProductById ok
-// UpdateProducts
-// DeleteProducts
