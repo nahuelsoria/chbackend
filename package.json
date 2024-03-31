@@ -1,0 +1,17 @@
+{
+  "name": "primer_desafio",
+  "version": "1.0.0",
+  "description": "",
+  "main": "ProductManager.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon ./src/data/app.js",
+    "start": "node ./src/data/app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

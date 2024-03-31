@@ -1,4 +1,5 @@
-const fs = require("fs")
+//const fs = require("fs")
+import fs from 'fs'
 
 class ProductManager {
 
@@ -8,7 +9,7 @@ class ProductManager {
 
   constructor() {
     this.#products = [];
-    this.#path = "./data/products.json";
+    this.#path = "./src/data/products.json";
     this.#readProducts();
   }
 
@@ -67,12 +68,16 @@ class ProductManager {
     return'Producto cargado correctamente.'
   }
 
-  getProducts() {
+  getProducts(limit = 0) {
+    limit = Number(limit);
+    if(limit > 0){
+      return this.#readProducts().slice(0, limit);
+    }
     return this.#readProducts();
   }
 
   getProductById(id) {
-    let encontrado = this.products.find((product) => product.id == id);
+    let encontrado = this.#products.find((product) => product.id == id);
     if (!encontrado) {
       return "Not found";
     } else {
@@ -100,3 +105,5 @@ class ProductManager {
 }
 
 const producto = new ProductManager();
+
+export default ProductManager;
