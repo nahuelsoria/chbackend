@@ -40,9 +40,9 @@ class ProductManager {
     return id;
 }
 
-  addProduct(code, title, thumbnail, stock, price, description) {
-    if (!code || !title || !thumbnail || !stock || !price || !description) {
-      return "Falta rellenar al menos uno de los campos.";
+  addProduct( title, description,  code, price, status = true,  stock, category, thumbnails = []) {
+    if (!title || !description || !code || !price || !stock || !category) {
+      return "Falta rellenar al menos uno de los campos obligatorios.";
     }
 
     if (this.#products.some((product) => product.code == code)) {
@@ -56,10 +56,12 @@ class ProductManager {
         id,
         title,
         description,
-        price,
-        thumbnail,
         code,
-        stock
+        price,
+        status,
+        stock,
+        category,
+        thumbnails
     };
 
     this.#products.push(newProduct)
