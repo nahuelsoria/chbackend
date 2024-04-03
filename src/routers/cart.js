@@ -32,24 +32,10 @@ router.post("/:cid/product/:pid", (req, res) => {
     const {cid} = req.params;
     const {pid} = req.params;
 
-    cart = c.getCartsById(Number(cid));
+    const c = new CartManager();
+    const newCart = c.addToCart(Number(cid), Number(pid));
 
-    if(cart == undefined) {
-        res.setHeader("Content-Type", "application/json")
-        return res.json("No existe el carrito en el que desea agregar productos") 
-    }
-
-    try {
-      const c = new CartManager();
-      const newCart = c.addToCart(cart, pid);
-      return res.json({ newCart });
-    } catch (error) {
-      res.setHeader("Content-Type", "application/json");
-      return res.status(500).json({
-        error: `Error inesperado en el servidor - Intente más tarde, o contacte a su administrador`,
-        detalle: `${error.message}`,
-      });
-    }
+    return res.json({newCart})
   });
 
 export default router;
