@@ -63,7 +63,6 @@ class CartManager {
         (p) => p.id === pid
       );
       const p = new ProductManager();
-      //const product = p.getProductById(pid);
 
       if (indexProductCart === -1) {
         this.#carts[index].products.push({ id: pid, quantity: 1 });
