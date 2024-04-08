@@ -22,13 +22,22 @@ router.post("/", (req, res) => {
   });
 
 router.get("/:cid", (req, res) => {
+  try{
   const { cid } = req.params;
   const c = new CartManager();
   const cart = c.getCartsById(Number(cid));
   return res.json({ cart });
+  }catch(error){
+    res.setHeader("Content-Type", "application/json");
+    return res.status(500).json({
+      error: `No se puede obtener los carritos.`,
+      detalle: `${error.message}`,
+    });
+  }
 });
 
 router.post("/:cid/product/:pid", (req, res) => {
+  try{
     const {cid} = req.params;
     const {pid} = req.params;
 
@@ -36,6 +45,13 @@ router.post("/:cid/product/:pid", (req, res) => {
     const newCart = c.addToCart(Number(cid), Number(pid));
 
     return res.json({newCart})
+  }catch(error){
+    res.setHeader("Content-Type", "application/json");
+    return res.status(500).json({
+      error: `No se puede obtener los carritos.`,
+      detalle: `${error.message}`,
+    })
+  }
   });
 
 export default router;

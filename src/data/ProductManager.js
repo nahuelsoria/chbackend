@@ -88,6 +88,10 @@ class ProductManager {
   }
 
   deleteProduct(id) {
+    const product = this.#products.find((p) => p.id === id);
+    if (!product) {
+      throw new Error('Producto no encontrado');
+    }
     this.#products = this.#products.filter((p) => p.id !== id);
     this.#saveProducts();
     console.log("Producto eliminado correctamente.");

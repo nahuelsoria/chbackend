@@ -71,7 +71,7 @@ router.delete("/:pid", (req, res) => {
     res.setHeader("Content-Type", "application/json");
     return res.status(200).json({ producto });
   } catch (error) {
-    return res.json({ error: "Error desconocido." });
+    return res.json({ error: error.message });
   }
 });
 
