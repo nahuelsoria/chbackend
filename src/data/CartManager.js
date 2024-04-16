@@ -7,7 +7,7 @@ class CartManager {
 
   constructor() {
     this.#carts = [];
-    this.#path = "./src/data/carts.json";
+    this.#path = "./carts.json";
     this.#readCarts();
   }
 

@@ -9,7 +9,7 @@ class ProductManager {
 
   constructor() {
     this.#products = [];
-    this.#path = "./src/data/products.json";
+    this.#path = "./products.json";
     this.#readProducts();
   }
 
