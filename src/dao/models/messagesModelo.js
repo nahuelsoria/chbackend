@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const messagesCollection="messages"
 const messagesEsquema=new mongoose.Schema(
     {
-        user: String,
+        email: String,
         message: String
     },
     {
@@ -11,7 +11,7 @@ const messagesEsquema=new mongoose.Schema(
     }
 )
 
-export const cartsModelo=mongoose.model(
+export const messagesModelo=mongoose.model(
     messagesCollection,
     messagesEsquema
 )
