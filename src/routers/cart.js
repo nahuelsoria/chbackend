@@ -1,17 +1,19 @@
 import {Router} from 'express';
-import CartManager from '../data/CartManager.js';
+import {CartManagerMongo as CartManager} from '../dao/CartManagerMongo.js';
+import { isValidObjectId } from 'mongoose';
 
 const router = Router();
 
-router.post("/", (req, res) => {
-    const {products} = req.body;
-  
+const c = new CartManager();
+
+router.post("/", async (req, res) => {
+    const {id, products} = req.body;
     try {
-      const c = new CartManager();
-      const newCart = c.addCart(
+      const newCart = await c.addCart(
+        id,
         products
       );
-      return res.json({ newCart });
+      return res.json("El carrito ha sido creado.");
     } catch (error) {
       res.setHeader("Content-Type", "application/json");
       return res.status(500).json({
@@ -21,16 +23,28 @@ router.post("/", (req, res) => {
     }
   });
 
-router.get("/:cid", (req, res) => {
+  router.get("/", async (req, res) => {
+    try{
+    const cart = await c.getCarts();
+    return res.json(cart);
+    }catch(error){
+      res.setHeader("Content-Type", "application/json");
+      return res.status(500).json({
+        error: `No se puede obtener los carritos.`,
+        detalle: `${error.message}`,
+      });
+    }
+  });
+
+router.get("/:cid", async (req, res) => { //Traer carrito por _id (creado por MONGO).
   try{
   const { cid } = req.params;
-  const c = new CartManager();
-  const cart = c.getCartsById(Number(cid));
-  return res.json({ cart });
+  const cart = await c.getCartsById(cid);
+  return res.json(cart);
   }catch(error){
     res.setHeader("Content-Type", "application/json");
     return res.status(500).json({
-      error: `No se puede obtener los carritos.`,
+      error: `No se puede obtener el carrito indicado.`,
       detalle: `${error.message}`,
     });
   }
@@ -40,9 +54,7 @@ router.post("/:cid/product/:pid", (req, res) => {
   try{
     const {cid} = req.params;
     const {pid} = req.params;
-
-    const c = new CartManager();
-    const newCart = c.addToCart(Number(cid), Number(pid));
+    const newCart = c.addToCart(cid, Number(pid));
 
     return res.json({newCart})
   }catch(error){

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import ProductManager from "../data/ProductManager.js";
+import ProductManager from "../dao/ProductManager.js";
 export const router=Router()
 
 router.get('/', (req, res) =>{
@@ -15,5 +15,9 @@ router.get('/realtimeproducts', (req, res) =>{
     res.setHeader('Content-Type', 'text/html');
     res.status(200).render('realtimeproducts', {product})
   });
+  
+  router.get("/chat", (req, res) => {
+    res.status(200).render('chat');
+});
 
 export default router;
