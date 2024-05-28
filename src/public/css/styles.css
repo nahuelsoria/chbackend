@@ -1,0 +1,23 @@
+#messages{
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+    margin-top: 15px;
+    width: 90%;
+    height: 350px;
+    overflow-y: scroll;
+    box-shadow: 0px 0px 5px #333 inset;
+    padding: 5px;
+    background-color: #075e54;
+    border-radius: 20px;
+}
+
+.message{
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+    border: 1px solid #555;
+    border-radius: 5px;
+    padding: 5px;
+    background-color: #dcf8c6;
+    display: inline-block;
+    margin-top: 5px;
+}
