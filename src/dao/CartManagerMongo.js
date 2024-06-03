@@ -2,26 +2,26 @@ import { cartsModelo } from './models/cartsModelo.js';
 import { productsModelo } from './models/productsModelo.js';
 
 export class CartManagerMongo {
-  async addCart(products) {
-    return await cartsModelo.create(products);
+  async createCart() {
+    let cart = await cartsModelo.create({ products: [] });
+    return cart.toJSON();
   }
 
   async addToCart(cid, pid) {
     try {
       const cart = await cartsModelo.findOne({ _id: cid });
-      
       if (!cart) {
         return `Carrito con ID ${cid} no encontrado`;
       }
 
       const existingProductIndex = cart.products.findIndex(
-        (product) => product.id == pid
+        (p) => p.product == pid
       );
-      console.log(existingProductIndex)
+      console.log({existingProductIndex})
       if (existingProductIndex !== -1) {
         cart.products[existingProductIndex].quantity++;
       } else {
-        const product = await productsModelo.findOne({id:pid})
+        const product = await productsModelo.findOne({_id:pid})
         
         if (!product || product === "Not found") {
           console.log(`Producto con ID ${pid} no encontrado`);
@@ -29,7 +29,7 @@ export class CartManagerMongo {
         }
 
         const newProduct = {
-          id: pid,
+          product: pid,
           quantity: 1,
         };
 
@@ -46,12 +46,12 @@ export class CartManagerMongo {
   }
 
   async getCarts(limit = 0) {
-    return await cartsModelo.find();
+    return await cartsModelo.find().populate("products.product").lean();
   }
   //db.carts.find(ObjectId("664bae4aa449b611ac3b0e2e"))
 
   async getCartsById(cid) {
-    return await cartsModelo.findOne({ _id: cid });
+    return await cartsModelo.findOne({ _id: cid }).populate("products.product").lean();;
   }
 
   updateCart(id, newProduct) {}
