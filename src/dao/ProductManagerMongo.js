@@ -7,8 +7,12 @@ export class ProductManagerMongo {
   }
 
   async getProductsPaginate(page){
-    return await productsModelo.paginate({}, {limit:5, page, lean:true})
+    return await productsModelo.paginate({}, {limit: 10, page, lean:true})
   }
+
+  async getSortProducts(sort){
+    return await productsModelo.find().sort({[sort]:1}).lean()
+}
 
   async getProductById(_id){
     return await productsModelo.findOne({_id})
