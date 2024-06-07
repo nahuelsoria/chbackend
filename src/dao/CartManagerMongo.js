@@ -50,11 +50,36 @@ export class CartManagerMongo {
   }
   //db.carts.find(ObjectId("664bae4aa449b611ac3b0e2e"))
 
+  async getCartsBy(filtro = {}) {
+    return await cartsModelo.findOne(filtro).populate("products.product").lean()
+};
+
   async getCartsById(cid) {
     return await cartsModelo.findOne({ _id: cid }).populate("products.product").lean();;
   }
 
-  updateCart(id, newProduct) {}
+  updateCart(id, newProduct) {
+
+  }
+
+  async deleteProductFromCart(cid, pid) { 
+    try {
+        const cart = await cartsModelo.findByIdAndUpdate(
+            cid,
+            { $inc: { 'products.$[product].quantity': -1 } },
+            { new: true, arrayFilters: [{ 'product.product': pid }] }
+        );
+
+        if (!cart) {
+            return `Carrito con ID ${cid} no encontrado.`;
+        }
+
+        console.log(`El producto fue eliminado del carrito correctamente: ${cart}`);
+
+        return cart;
+    } catch (error) {
+        console.log(`Error al eliminar intentar eliminar el producto del carrito: ${error}`);
+        return `Error al eliminar intentar eliminar el producto del carrito: ${error}`;
+    }
 }
-  
-  const cart = new CartManagerMongo();
+}
