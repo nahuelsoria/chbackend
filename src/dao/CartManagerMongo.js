@@ -58,9 +58,33 @@ export class CartManagerMongo {
     return await cartsModelo.findOne({ _id: cid }).populate("products.product").lean();;
   }
 
-  updateCart(id, newProduct) {
+  async updateCart(cid, products) {
+    try {
+        let cart = await cartsModelo.findByIdAndUpdate(
+            cid,
+            { $set: { products: products } },
+            { returnDocument: "after" }
+        );
+        return (cart)
+    } catch (error) {
+        console.error(error.message);
+        return ("Error al actualizar el carrito");
+    }
+};
 
+async updateProductQ(cid, pid, quantity) {
+  try {
+      let cart = await cartsModelo.findOneAndUpdate(
+          { _id: cid, "products.product": pid },
+          { $set: { "products.$.quantity": quantity } },
+          { new: true }
+      ).populate("products.product");
+      return cart;
+  } catch (error) {
+      console.error(error.message);
+      return ("Error al actualizar la cantidad del producto");
   }
+};
 
   async deleteProductFromCart(cid, pid) { 
     try {
@@ -82,4 +106,27 @@ export class CartManagerMongo {
         return `Error al eliminar intentar eliminar el producto del carrito: ${error}`;
     }
 }
+
+async deleteAllProductsFromCart(cid) {
+  try {
+      const cart = await cartsModelo.findByIdAndUpdate(
+          cid,
+          { $set: { products: [] } },
+          { returnDocument: "after" }
+      );
+
+      if (!cart) {
+          return `Carrito con id ${cid} no encontrado`;
+      }
+
+      cart.products = [];
+
+      await cart.save();
+      console.log(`Productos eliminados correctamente: ${cart}`);
+
+      return cart;
+  } catch (error) {
+      return `Error al eliminar los productos del carrito: ${error}`;
+  }
+};
 }
