@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <h2>Lista de Productos</h2>
+    <hr>
+    <input type="text" value="{{carrito._id}}" id="carrito" hidden>
+    <ul name="" id="">
+        <li>
+            <a href="/products">Todos</a></li>
+        {{#each categories}}
+        <li>
+            <a href="/products?category={{this}}">{{this}}</a>
+        </li>
+        {{/each}}
+    </ul>
+
+    <p>
+    <div>
+        <select id="sortSelect">
+            <option selected disabled>Ordenar</option>
+            <option value="asc">Precio: Menor a Mayor</option>
+            <option value="desc">Precio: Mayor a Menor</option>
+        </select>
+    </div>
+    {{#each payload}}
+    <div class="product-container">
+        <li>Titulo: {{this.title}}</li>
+        <ul>Descripción: {{this.description}}</ul>
+        <ul>Precio: ${{this.price}}</ul>
+        <ul>Codigo: {{this.code}}</ul>
+        <ul>Stock: {{this.stock}}</ul>
+        <ul>_id: {{this._id}}</ul>
+        <button onclick="comprar('{{this._id}}')">Agregar al carrito</button>
+    </div>
+    {{/each}}
+    </p>
+    <br>
+    <a href="/products?page=1">Pag. 1</a>
+    {{#if hasPrevPage}}
+    <a href="{{prevLink}}">Ant. Pág.</a>
+    {{/if}}
+    {{#if hasNextPage}}
+    <a href="{{nextLink}}">Sig. Pág.</a>
+    {{/if}}
+    <a href="/products?page={{totalPages}}">Ult. Pág.</a>
+    <label for="paginaActual"></label>
+    <input type="number" max="{{totalPages}}" min="1" step="1" id="paginaActual" name="paginaActual" value="{{page}}"
+        onchange="cambiopagina()">
+
+    <a href="/cart/{{cart._id}}">Ver carrito</a>
+
+    <a href="/chat">Chat</a>
+</body>
+
+<script>
+    let inputPaginaActual = document.getElementById("paginaActual")
+    const cambiopagina = () => {
+        window.location.href = "/products?page=" + inputPaginaActual.value
+    }
+
+</script>
+<script src="/js/products.js"></script>
+
+</html>

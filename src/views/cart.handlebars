@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito {{cart._id}}</title>
+    <link rel="stylesheet" href="/css/cart.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="cart-container">
+        <h2>Carrito {{cart._id}}</h2>
+        <h3>Productos agregados en el carrito</h3>
+        <ul class="cart-list">
+            {{#each cart.products}}
+            <li class="cart-item">
+                <span><strong>ID:</strong> {{product._id}}</span>
+                <span><strong>Título:</strong> {{product.title}}</span>
+                <span><strong>Cantidad:</strong> {{this.quantity}}</span>
+            </li>
+            {{/each}}
+        </ul>
+        <a href="/products">Seguir comprando</a>
+    </div>
+</body>
+</html>
