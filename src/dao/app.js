@@ -1,4 +1,5 @@
 import express from "express";
+import cookieParser from "cookie-parser";
 import {Server} from "socket.io"
 import productsRouter from '../routers/products.js'
 import cartRouter from '../routers/cart.js'
@@ -23,6 +24,18 @@ app.set('views', path.join(__dirname, '/views'));
 app.use('/api/products/', productsRouter);
 app.use('/api/carts/', cartRouter);
 app.use('/', views);
+app.use(cookieParser())
+
+app.get('/setcookies', (req, res) =>{
+  let datos= {nombre: "Juan", rol:"user"}
+  
+  res.cookie("coockie1", "valor cookie 1", {})
+  res.cookie("cookie2", datos, {maxAge: 1000*60})
+  res.cookie("cookie3", datos, {expires: new Date(2024, 8, 10)})
+
+  res.setHeader('Content-Type', 'text/plain')
+  res.status(200).send('OK')
+})
 
 let usuarios = [];
 //let mensajes = [];
