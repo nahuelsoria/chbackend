@@ -112,3 +112,220 @@ button:hover {
 button:active {
     background-color: #a93226;
 }
+
+/* Formulario */
+#form-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 300px;
+}
+
+#form-title {
+    color: #2c3e50;
+    border-bottom: 2px solid #2980b9;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#register-form {
+    display: flex;
+    flex-direction: column;
+}
+
+#register-form input[type="text"],
+#register-form input[type="email"],
+#register-form input[type="password"] {
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #bdc3c7;
+    border-radius: 5px;
+}
+
+#register-form input[type="text"]:focus,
+#register-form input[type="email"]:focus,
+#register-form input[type="password"]:focus {
+    border-color: #3498db;
+    outline: none;
+}
+
+#submit-button {
+    padding: 10px 15px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #3498db;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin-top: 20px;
+}
+
+#submit-button:hover {
+    background-color: #2980b9;
+    transform: scale(1.05);
+}
+
+#submit-button:active {
+    background-color: #1c6ca1;
+}
+
+#registerform{
+    font-family: 'Roboto', sans-serif;
+    background-color: #f7f9fc;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#login-form-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    margin: 0 auto; /* Center the form */
+}
+
+#login-form-title {
+    color: #2c3e50;
+    border-bottom: 2px solid #2980b9;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#login-form {
+    display: flex;
+    flex-direction: column;
+}
+
+#login-form input[type="email"],
+#login-form input[type="password"] {
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #bdc3c7;
+    border-radius: 5px;
+}
+
+#login-form input[type="email"]:focus,
+#login-form input[type="password"]:focus {
+    border-color: #3498db;
+    outline: none;
+}
+
+#login-submit-button {
+    padding: 10px 15px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #3498db;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin-top: 20px;
+}
+
+#login-submit-button:hover {
+    background-color: #2980b9;
+    transform: scale(1.05);
+}
+
+#login-submit-button:active {
+    background-color: #1c6ca1;
+}
+
+#error-message {
+    font-weight: bolder;
+    color: red;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* Estilo para el título del usuario */
+#user-title {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Estilo para el título de la sección de datos del usuario */
+#user-data-title {
+    font-size: 20px;
+    color: #555;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+/* Estilo para el nombre del usuario */
+#user-name {
+    font-size: 16px;
+    color: #000;
+    margin-bottom: 5px;
+}
+
+/* Estilo para el correo electrónico del usuario */
+#user-email {
+    font-size: 16px;
+    color: #000;
+    margin-bottom: 5px;
+}
+
+/* Estilo para los elementos <strong> dentro de los párrafos */
+#user-name strong, #user-email strong {
+    font-weight: bold;
+    color: #007BFF; /* Color azul para resaltar */
+}
+
+/* Specific styling for each list item using IDs */
+#menu-item-1 a {
+    background-color: #4CAF50; /* Background color for Home Page link */
+}
+
+#menu-item-2 a {
+    background-color: #2196F3; /* Background color for Register link */
+}
+
+#menu-item-3 a {
+    background-color: #f44336; /* Background color for Login link */
+}
+
+#menu-item-4 a {
+    background-color: #ff9800; /* Background color for Profile link */
+}
+
+#menu-item-5 a {
+    background-color: #9c27b0; /* Background color for Logout link */
+}
+
+/* Specific styling for each link using IDs */
+#link-1 {
+    background-color: #4CAF50; /* Background color for Home Page link */
+}
+
+#link-2 {
+    background-color: #2196F3; /* Background color for Register link */
+}
+
+#link-3 {
+    background-color: #f44336; /* Background color for Login link */
+}
+
+#link-4 {
+    background-color: #ff9800; /* Background color for Profile link */
+}
+
+#link-5 {
+    background-color: #9c27b0; /* Background color for Logout link */
+}
+
+/* Active link styling */
+li a.active {
+    background-color: #4CAF50; /* Background color for active link */
+    color: white;              /* Text color for active link */
+}

@@ -11,6 +11,7 @@ import __dirname from "../utils.js";
 import { messagesModelo } from "./models/messagesModelo.js";
 import sessions from "express-session"
 import { auth } from "../middleware/auth.js";
+import {router as sessionsRouter} from "../routers/sessions.js"
 
 const app = express();
 const PORT = 8080;
@@ -20,8 +21,7 @@ app.use(express.urlencoded({extended:true}))
 app.use(express.static(path.join(__dirname, '/public')));
 app.use(sessions({
   secret: "CoderCoder123",
-  resave: true, saveUninitialized: true
-  
+  resave: true, saveUninitialized: true  
 }))
 
 app.engine("handlebars", engine())
@@ -30,6 +30,7 @@ app.set('views', path.join(__dirname, '/views'));
 
 app.use('/api/products/', productsRouter);
 app.use('/api/carts/', cartRouter);
+app.use('/api/sessions', sessionsRouter)
 app.use('/', views);
 app.use(cookieParser("CoderCoder123"))
 
@@ -52,21 +53,21 @@ app.get('/datos', auth,  (req, res) =>{
 })
 
 app.get('/login', (req, res)=>{
-  let {usuario, password}=req.query
-  if(!usuario || !password){
+  let {user, password}=req.query
+  if(!user || !password){
     res.setHeader('Content-Type','application/json');
-    return res.status(400).json({error: `Complete usuario y contraseña.`})
+    return res.status(400).json({error: `Complete user y password.`})
   }
 
-  if(usuario!="juan" && password != "CoderCoder123"){
+  if(user!="juan" && password != "CoderCoder123"){
     res.setHeader('Content-Type','application/json');
     return res.status(400).json({error: `Credenciales incorrectas.`})
   }
 
-  req.session.usuario=usuario
+  req.session.user=user
 
   res.setHeader('Content-Type','application/json');
-  res.status(200).json({message: `Login correcto.`, usuario})
+  res.status(200).json({message: `Login correcto.`, user})
 
 })
 

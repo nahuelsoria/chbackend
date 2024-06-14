@@ -1,0 +1,18 @@
+<div id="login-form-container">
+    <h2 id="login-form-title">Login:</h2>
+    <hr>
+    <form id="login-form" action="/api/sessions/login" method="post">
+
+        {{#if error}}
+            <div id="error-message">{{error}}</div>
+        {{/if}}
+
+        <input type="email" name="email" placeholder="E-mail">
+        <input type="password" name="password" placeholder="Password">
+        <input type="text" name="web" value="web" hidden>
+        <br><br>
+        <input id="login-submit-button" type="submit" value="Login">
+    </form>
+    <br><br>
+</div>
+{{>menu}}

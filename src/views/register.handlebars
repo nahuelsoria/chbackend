@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Registro</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="registerform">
+    <div id="form-container">
+        <h2 id="form-title">Registro:</h2>
+        <hr>
+        <form action="/api/sessions/register" method="post" id="register-form">
+            <input type="text" name="name" placeholder="Name" id="name">
+            <input type="email" name="email" placeholder="E-mail" id="email">
+            <input type="password" name="password" placeholder="Password" id="password">
+            <input type="text" name="web" value="web" hidden id="web">
+
+            <br><br>
+            <input type="submit" value="Registrar" id="submit-button">
+        </form>
+    </div>
+    </div>
+    {{>menu}}
+</body>
+</html>
