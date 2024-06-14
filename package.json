@@ -5,8 +5,8 @@
   "main": "ProductManager.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon ./src/data/app.js",
-    "start": "node ./src/data/app.js"
+    "dev": "nodemon ./src/dao/app.js",
+    "start": "node ./src/dao/app.js"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +15,7 @@
     "cookie-parser": "^1.4.6",
     "express": "^4.19.2",
     "express-handlebars": "^7.1.2",
+    "express-session": "^1.18.0",
     "mongoose": "^8.3.5",
     "mongoose-paginate-v2": "^1.8.2",
     "socket.io": "^4.7.5"

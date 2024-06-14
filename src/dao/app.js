@@ -9,6 +9,8 @@ import mongoose from "mongoose";
 import path from "path";
 import __dirname from "../utils.js";
 import { messagesModelo } from "./models/messagesModelo.js";
+import sessions from "express-session"
+import { auth } from "../middleware/auth.js";
 
 const app = express();
 const PORT = 8080;
@@ -16,6 +18,11 @@ const PORT = 8080;
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use(express.static(path.join(__dirname, '/public')));
+app.use(sessions({
+  secret: "CoderCoder123",
+  resave: true, saveUninitialized: true
+  
+}))
 
 app.engine("handlebars", engine())
 app.set("view engine", "handlebars")
@@ -24,17 +31,92 @@ app.set('views', path.join(__dirname, '/views'));
 app.use('/api/products/', productsRouter);
 app.use('/api/carts/', cartRouter);
 app.use('/', views);
-app.use(cookieParser())
+app.use(cookieParser("CoderCoder123"))
+
+app.get('/', (req, res)=>{
+
+  if(req.session.contador){
+    req.session.contador++
+  }else{
+    req.session.contador=1
+  }
+
+  res.setHeader('Content-Type', 'text/plain')
+  res.status(200).send(`Visitas al site: ${req.session.contador}`)
+})
+
+app.get('/datos', auth,  (req, res) =>{
+  
+  res.setHeader('Content-Type', 'application/json')
+  res.status(200).json({datos: "DATOS...!!!", session: req.session})
+})
+
+app.get('/login', (req, res)=>{
+  let {usuario, password}=req.query
+  if(!usuario || !password){
+    res.setHeader('Content-Type','application/json');
+    return res.status(400).json({error: `Complete usuario y contraseña.`})
+  }
+
+  if(usuario!="juan" && password != "CoderCoder123"){
+    res.setHeader('Content-Type','application/json');
+    return res.status(400).json({error: `Credenciales incorrectas.`})
+  }
+
+  req.session.usuario=usuario
+
+  res.setHeader('Content-Type','application/json');
+  res.status(200).json({message: `Login correcto.`, usuario})
+
+})
+
+app.get("/logout", (req, res) => {
+  req.session.destroy((error) => {
+    if (error) {
+      console.log(error);
+      res.setHeader("Content-Type", "application/json");
+      res
+        .status(500)
+        .json({
+          error: `Error inesperado en el servidor. Intente mas tarde.`,
+          detalle: `${error.message}`,
+        });
+    }
+  });
+
+  res.setHeader("Content-Type", "application/json");
+  res.status(200).json({ payload: `Logout exitoso.`});
+});
 
 app.get('/setcookies', (req, res) =>{
   let datos= {nombre: "Juan", rol:"user"}
   
-  res.cookie("coockie1", "valor cookie 1", {})
+  res.cookie("cookie1", "valor cookie 1", {})
   res.cookie("cookie2", datos, {maxAge: 1000*60})
   res.cookie("cookie3", datos, {expires: new Date(2024, 8, 10)})
+  res.cookie("cookie3Firmada", datos, {signed:true, expires: new Date(2024, 8, 10)})
 
   res.setHeader('Content-Type', 'text/plain')
   res.status(200).send('OK')
+})
+
+app.get('/getcookies', (req, res) =>{
+  let cookies = req.cookies
+  let cookiesFirmadas = req.signedCookies
+
+  res.setHeader('Content-Type', 'application/json')
+  res.status(200).json({cookies})
+})
+
+app.get('/delcookies', (req, res) =>{
+
+  //res.clearCookie("cookie2") Elimina una cookie determinada.
+
+  Object.keys(req.cookies).forEach(c => res.clearCookie(c))
+  Object.keys(req.signedCookies).forEach(c => res.clearCookie(c))
+
+  res.setHeader('Content-Type', 'application/json')
+  res.status(200).json({msg: "Cookies eliminadas."})
 })
 
 let usuarios = [];
