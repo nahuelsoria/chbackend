@@ -3,31 +3,19 @@ import { ProductManagerMongo as ProductManager } from "../dao/ProductManagerMong
 import { CartManagerMongo as CartManager } from "../dao/CartManagerMongo.js";
 import { productsModelo } from "../dao/models/productsModelo.js";
 import { auth } from "../middleware/auth.js";
+import { UserManagerMongo as UserManager } from "../dao/UserManagerMongo.js";
 
 export const router = Router();
 
 const c = new CartManager();
 const p = new ProductManager();
-/*
-router.get('/products', async (req, res) =>{
-  let {pagina, limit}= req.query
-  console.log(pagina, limit)
-  if(!pagina) pagina=1
-  if(!limit) limit=5
-  const p = new ProductManager();
-  let {docs:product, page, totalPages, hasPrevPage, hasNextPage, prevPage, nextPage} = await p.getProductsPaginate(pagina);
-  console.log(product)
-  res.setHeader('Content-Type','text/html');
-  res.status(200).render('products', {product, page, totalPages, hasPrevPage, hasNextPage, prevPage, nextPage});
-})
-*/
+const u = new UserManager()
 
-router.get("/products", async (req, res) => {
-  let cart = await c.getCartsBy();
-  if (!cart) {
-    cart = await c.create();
-  }
-
+router.get("/products", auth , async (req, res) => {
+  let cart ={
+    _id: req.session.user.cart
+}
+  //console.log(cart)
   try {
     const { page = 1, limit = 10, sort } = req.query;
     const options = {
@@ -108,6 +96,7 @@ router.get("/products", async (req, res) => {
       nextLink,
       categories: categories,
       cart,
+      user:req.session.user
     });
   } catch (error) {
     console.log(error);

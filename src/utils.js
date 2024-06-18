@@ -2,6 +2,7 @@ import { fileURLToPath } from "url";
 import { dirname } from "path";
 import crypto from "crypto"
 
+// auyhqknlgzudwogs Contraseña de aplicación GMAIL.
 
 const _filename = fileURLToPath(import.meta.url);
 const _dirname = dirname(_filename);

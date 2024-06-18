@@ -9,9 +9,12 @@
 </head>
 
 <body>
-    <h2>Lista de Productos</h2>
+<h1>Lista de Productos</h1>
+
+    <h2>Bienvenido {{user.first_name}} {{user.last_name}}</h2>
+    <p>Rol: {{user.rol}}</p>
     <hr>
-    <input type="text" value="{{carrito._id}}" id="carrito" hidden>
+    <input type="text" value="{{cart._id}}" id="carrito" hidden>
     <ul>
         <li>
             <a href="/products">Todos</a></li>
@@ -58,6 +61,7 @@
     <a href="/cart/{{cart._id}}">Ver carrito</a>
 
     <a href="/chat">Chat</a>
+    <a href="/logout">Logout</a>
 </body>
 
 <script>

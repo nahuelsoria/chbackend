@@ -1,7 +1,10 @@
-<h2 id="user-title">Usuario {{user.nombre}}</h2>
+<h2 id="user-title">Usuario ID :{{user._id}}</h2>
 <hr>
 <h3 id="user-data-title">Datos usuario:</h3>
-<p id="user-name">Nombre: <strong>{{user.name}}</strong></p>
+<p id="user-name">Nombre: <strong>{{user.first_name}}</strong></p>
+<p id="user-lastname">Apellido: <strong>{{user.last_name}}</strong></p>
 <p id="user-email">Correo electrónico: <strong>{{user.email}}</strong></p>
+<p id="user-age">Edad: <strong>{{user.age}}</strong></p>
+<p id="user-rol">Rol: <strong>{{user.rol}}</strong></p>
 <br><br>
 {{>menu}}

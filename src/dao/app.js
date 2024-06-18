@@ -36,14 +36,14 @@ app.use(cookieParser("CoderCoder123"))
 
 app.get('/', (req, res)=>{
 
-  if(req.session.contador){
+/*   if(req.session.contador){
     req.session.contador++
   }else{
     req.session.contador=1
   }
-
+ */
   res.setHeader('Content-Type', 'text/plain')
-  res.status(200).send(`Visitas al site: ${req.session.contador}`)
+  res.redirect('/login');
 })
 
 app.get('/datos', auth,  (req, res) =>{
@@ -86,7 +86,7 @@ app.get("/logout", (req, res) => {
   });
 
   res.setHeader("Content-Type", "application/json");
-  res.status(200).json({ payload: `Logout exitoso.`});
+  res.redirect('/login');
 });
 
 app.get('/setcookies', (req, res) =>{
