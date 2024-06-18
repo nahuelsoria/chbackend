@@ -1,42 +1,38 @@
 import { Router } from "express";
-import {ProductManagerMongo as ProductManager} from "../dao/ProductManagerMongo.js";
+import { ProductManagerMongo as ProductManager } from "../dao/ProductManagerMongo.js";
 
 const router = Router();
 const p = new ProductManager();
 
 router.get("/", async (req, res) => {
-  try{
+  try {
     const productos = await p.getProducts(); //Consulto la base de datos de productos
-    return res.json({productos});
-  }catch (error){
-    console.log(error)
-    res.setHeader('Content-type','application/json');
-    return res.status(500).json(
-      {
-        error: `Error inesperado en el servidor - Intente mas tarde`,
-        detalle: `${error.message}`
-      }
-    )
+    return res.json({ productos });
+  } catch (error) {
+    console.log(error);
+    res.setHeader("Content-type", "application/json");
+    return res.status(500).json({
+      error: `Error inesperado en el servidor - Intente mas tarde`,
+      detalle: `${error.message}`,
+    });
   }
 });
 
-router.get("/:pid", async (req, res) => { //Para traer un producto utilizo el _id.
-  try{
-  const { pid } = req.params;
-  const producto = await p.getProductById(pid);
-  return res.json(producto);
-  }catch (error){
-    console.log(error)
-    res.setHeader('Content-type','application/json');
-    return res.status(500).json(
-      {
-        error: `Error inesperado en el servidor - Intente mas tarde`,
-        detalle: `${error.message}`
-      }
-    )
+router.get("/:pid", async (req, res) => {
+  //Para traer un producto utilizo el _id.
+  try {
+    const { pid } = req.params;
+    const producto = await p.getProductById(pid);
+    return res.json(producto);
+  } catch (error) {
+    console.log(error);
+    res.setHeader("Content-type", "application/json");
+    return res.status(500).json({
+      error: `Error inesperado en el servidor - Intente mas tarde`,
+      detalle: `${error.message}`,
+    });
   }
 });
-
 
 router.post("/", async (req, res) => {
   const {
@@ -49,7 +45,8 @@ router.post("/", async (req, res) => {
     category,
     thumbnails,
   } = req.body;
-  if (!title ||
+  if (
+    !title ||
     !description ||
     !code ||
     !price ||
@@ -83,8 +80,8 @@ router.post("/", async (req, res) => {
     .json({ error: `El producto con ID ${id} ya existe en la base de datos.` });
   }
   */
- 
- let existeCode;
+
+  let existeCode;
   try {
     existeCode = await p.getProductByCode(code);
     //console.log(existe)
@@ -100,7 +97,9 @@ router.post("/", async (req, res) => {
     res.setHeader("Content-Type", "application/json");
     return res
       .status(400)
-      .json({ error: `El producto con Code ${code} ya existe en la base de datos.` });
+      .json({
+        error: `El producto con Code ${code} ya existe en la base de datos.`,
+      });
   }
 
   try {
@@ -128,7 +127,7 @@ router.post("/", async (req, res) => {
 router.put("/:pid", async (req, res) => {
   const { pid } = req.params;
   try {
-    let aModificar = req.body
+    let aModificar = req.body;
     let productoModificado = await p.updateProduct(pid, aModificar);
     res.setHeader("Content-Type", "application/json");
     return res.status(200).json(productoModificado);
@@ -142,7 +141,9 @@ router.delete("/:pid", async (req, res) => {
   try {
     const producto = await p.deleteProduct(pid);
     res.setHeader("Content-Type", "application/json");
-    return res.status(200).json(`El producto con ID ${pid} ha sido eliminado de la base de datos.`);
+    return res
+      .status(200)
+      .json(`El producto con ID ${pid} ha sido eliminado de la base de datos.`);
   } catch (error) {
     return res.json({ error: error.message });
   }

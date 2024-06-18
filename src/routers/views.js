@@ -9,12 +9,12 @@ export const router = Router();
 
 const c = new CartManager();
 const p = new ProductManager();
-const u = new UserManager()
+const u = new UserManager();
 
-router.get("/products", auth , async (req, res) => {
-  let cart ={
-    _id: req.session.user.cart
-}
+router.get("/products", auth, async (req, res) => {
+  let cart = {
+    _id: req.session.user.cart,
+  };
   //console.log(cart)
   try {
     const { page = 1, limit = 10, sort } = req.query;
@@ -96,7 +96,7 @@ router.get("/products", auth , async (req, res) => {
       nextLink,
       categories: categories,
       cart,
-      user:req.session.user
+      user: req.session.user,
     });
   } catch (error) {
     console.log(error);
@@ -124,18 +124,18 @@ router.get("/chat", (req, res) => {
   res.status(200).render("chat");
 });
 
-router.get('/register', (req, res)=>{
-    res.status(200).render('register')
-})
+router.get("/register", (req, res) => {
+  res.status(200).render("register");
+});
 
-router.get('/login', (req, res)=>{
-  res.status(200).render('login')
-})
+router.get("/login", (req, res) => {
+  res.status(200).render("login");
+});
 
-router.get('/profile', auth, (req, res)=>{
-  res.status(200).render('profile',{
-    user:req.session.user
-  })
-})
+router.get("/profile", auth, (req, res) => {
+  res.status(200).render("profile", {
+    user: req.session.user,
+  });
+});
 
 export default router;
