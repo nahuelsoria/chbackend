@@ -9,7 +9,7 @@
 </head>
 
 <body>
-<h1>Lista de Productos</h1>
+    <h1>Lista de Productos</h1>
 
     <h2>Bienvenido {{user.first_name}} {{user.last_name}}</h2>
     <p>Rol: {{user.rol}}</p>
@@ -17,7 +17,8 @@
     <input type="text" value="{{cart._id}}" id="carrito" hidden>
     <ul>
         <li>
-            <a href="/products">Todos</a></li>
+            <a href="/products">Todos</a>
+        </li>
         {{#each categories}}
         <li>
             <a href="/products?category={{this}}">{{this}}</a>

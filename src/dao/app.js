@@ -12,6 +12,8 @@ import { messagesModelo } from "./models/messagesModelo.js";
 import sessions from "express-session";
 import { auth } from "../middleware/auth.js";
 import { router as sessionsRouter } from "../routers/sessions.js";
+import MongoStore from "connect-mongo";
+//import FileStore from 'session-file-store'
 
 const app = express();
 const PORT = 8080;
@@ -24,6 +26,10 @@ app.use(
     secret: "CoderCoder123",
     resave: true,
     saveUninitialized: true,
+    store: MongoStore.create({
+      ttl: 3600,
+      mongoUrl: "mongodb+srv://nahuelsoria:1512111011a@cluster0.7hppgll.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0&dbName=sessionsstorage"
+    })
   })
 );
 
@@ -38,12 +44,12 @@ app.use("/", views);
 app.use(cookieParser("CoderCoder123"));
 
 app.get("/", (req, res) => {
-  /*   if(req.session.contador){
+     /* if(req.session.contador){
     req.session.contador++
   }else{
     req.session.contador=1
-  }
- */
+  } */
+ 
   res.setHeader("Content-Type", "text/plain");
   res.redirect("/login");
 });
