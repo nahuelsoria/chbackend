@@ -1,9 +1,11 @@
 import passport from "passport";
 import local from "passport-local";
 import { UserManagerMongo as UserManager } from "../dao/UserManagerMongo.js";
+import { CartManagerMongo as CartManager } from "../dao/CartManagerMongo.js";
 import { generaHash } from "../utils.js";
 
 const u = new UserManager()
+const c = new CartManager()
 
 export const initPassport = () => {
   passport.use(
@@ -58,4 +60,12 @@ export const initPassport = () => {
     )
   );
   //Paso 1) Solo si usamos sessions, configuro serializar/desserializar
+  passport.serializeUser((user, done) =>{
+    return done(null, user._id)
+  })
+
+  passport.deserializeUser( async (id, done) =>{
+    let user = await u.getBy({_id:id})
+    return done(null, user)
+  })
 };

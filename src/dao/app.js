@@ -13,6 +13,8 @@ import sessions from "express-session";
 import { auth } from "../middleware/auth.js";
 import { router as sessionsRouter } from "../routers/sessions.js";
 import MongoStore from "connect-mongo";
+import passport from "passport";
+import { initPassport } from "../config/passport.config.js";
 //import FileStore from 'session-file-store'
 
 const app = express();
@@ -32,6 +34,12 @@ app.use(
     })
   })
 );
+
+//Paso 2 de Passport
+
+initPassport()
+app.use(passport.initialize())
+app.use(passport.session()); //Solo si uso sessions.
 
 app.engine("handlebars", engine());
 app.set("view engine", "handlebars");

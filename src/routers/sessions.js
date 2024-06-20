@@ -2,13 +2,25 @@ import { Router } from "express";
 import { UserManagerMongo as UserManager } from "../dao/UserManagerMongo.js";
 import { generaHash, validaPassword } from "../utils.js";
 import { CartManagerMongo as CartManager } from "../dao/CartManagerMongo.js";
+import passport from "passport";
 
 export const router = Router();
 
 const u = new UserManager();
 const c = new CartManager();
 
-router.post("/register", async (req, res) => {
+router.get("/error", (req, res)=>{
+  res.setHeader('Content-Type','application/json')
+  return res.status(500).json(
+    {
+      error: `Error inesperado en el servidor - Intente más tarde, o contacte a su administrador`,
+        detalle: `${error.message}`,
+    }
+  )
+})
+
+//Paso 3 de Passport.
+router.post("/register", passport.authenticate("register", {failureRedirect: "/api/sessions/error"}) , async (req, res) => {
   /* let { first_name, last_name, email, password, age, rol } = req.body;
   if (!first_name || !last_name || !email || !password || !age) {
     res.setHeader("Content-Type", "application/json");
@@ -47,6 +59,10 @@ router.post("/register", async (req, res) => {
       detalle: `${error.message}`,
     });
   } */
+
+    //Si sale todo OK Passport deja un req.user
+    res.setHeader('Content-Type','application/json');
+    return res.status(201).json({mensaje:"Registro OK", nuevoUsuario: req.user})
 });
 
 router.post("/login", async (req, res) => {
