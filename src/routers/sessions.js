@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { UserManagerMongo as UserManager } from "../dao/UserManagerMongo.js";
-import { generaHash } from "../utils.js";
+import { generaHash, validaPassword } from "../utils.js";
 import { CartManagerMongo as CartManager } from "../dao/CartManagerMongo.js";
 
 export const router = Router();
@@ -70,8 +70,14 @@ router.post("/login", async (req, res) => {
     return res.redirect("/products");
   }
 
-  let user = await u.getBy({ email, password: generaHash(password) });
+  //let user = await u.getBy({ email, password: generaHash(password) });
+  let user = await u.getBy({email});
   if (!user) {
+    res.setHeader("Content-Type", "application/json");
+    return res.status(400).json({ error: `Credenciales incorrectas.` });
+  }
+
+  if(!validaPassword(password, user.password)){
     res.setHeader("Content-Type", "application/json");
     return res.status(400).json({ error: `Credenciales incorrectas.` });
   }
