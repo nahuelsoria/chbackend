@@ -9,7 +9,7 @@ const u = new UserManager();
 const c = new CartManager();
 
 router.post("/register", async (req, res) => {
-  let { first_name, last_name, email, password, age, rol } = req.body;
+  /* let { first_name, last_name, email, password, age, rol } = req.body;
   if (!first_name || !last_name || !email || !password || !age) {
     res.setHeader("Content-Type", "application/json");
     return res.status(400).json({ error: `Complete los datos solicitados.` });
@@ -46,7 +46,7 @@ router.post("/register", async (req, res) => {
       error: `Error inesperado en el servidor. Intente mas tarde.`,
       detalle: `${error.message}`,
     });
-  }
+  } */
 });
 
 router.post("/login", async (req, res) => {
