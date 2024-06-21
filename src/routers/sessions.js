@@ -65,29 +65,30 @@ router.post("/register", passport.authenticate("register", {failureRedirect: "/a
     return res.status(201).json({mensaje:"Registro OK", nuevoUsuario: req.user})
 });
 
-router.post("/login", async (req, res) => {
-  let { email, password } = req.body;
+router.post("/login", passport.authenticate("login", {failureRedirect: "/api/sessions/error"}) , async (req, res) => {
+  /* let { email, password } = req.body;
   if (!email || !password) {
     res.setHeader("Content-Type", "application/json");
     return res.status(400).json({ error: `Complete los datos solicitados.` });
-  }
+  } */
 
-  if (email === "adminCoder@coder.com" && password === "adminCod3r123") {
+  /* if (email === "adminCoder@coder.com" && password === "adminCod3r123") {
     let user = {
       first_name: "admin",
       email: "adminCoder@coder.com",
       password: "adminCod3r123",
       rol: "admin",
     };
+    
     user = { ...user };
     delete user.password;
     req.session.user = user;
     res.setHeader("Content-Type", "application/json");
     return res.redirect("/products");
-  }
+  } */
 
   //let user = await u.getBy({ email, password: generaHash(password) });
-  let user = await u.getBy({email});
+  /* let user = await u.getBy({email});
   if (!user) {
     res.setHeader("Content-Type", "application/json");
     return res.status(400).json({ error: `Credenciales incorrectas.` });
@@ -96,9 +97,9 @@ router.post("/login", async (req, res) => {
   if(!validaPassword(password, user.password)){
     res.setHeader("Content-Type", "application/json");
     return res.status(400).json({ error: `Credenciales incorrectas.` });
-  }
+  } */
 
-  user = { ...user };
+  let user = { ...req.user };
   delete user.password;
   req.session.user = user;
   res.setHeader("Content-Type", "application/json");
@@ -109,7 +110,6 @@ router.post("/login", async (req, res) => {
 router.get("/logout", (req, res) => {
   req.session.destroy((e) => {
     if (e) {
-      console.log(error);
       res.setHeader("Content-Type", "application/json");
       return res.status(500).json({
         error: `Error inesperado en el servidor - Intente más tarde, o contacte a su administrador`,
