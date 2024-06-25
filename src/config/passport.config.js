@@ -69,6 +69,15 @@ export const initPassport = () => {
       },
       async (username, password, done) => {
         try {
+          if(username=="adminCoder@coder.com" && password=="adminCod3r123"){
+                        
+            let user={
+                _id: "idAdmin", first_name: "admin", email: username, 
+                cart: "6674b594b7a3908ed1fd64cf", rol: "admin"
+            }
+            //console.log(user)
+            return done(null, user)
+        }
           let user = await u.getBy({ email: username });
           if (!user) {
             /*             res.setHeader("Content-Type", "application/json");
@@ -81,6 +90,7 @@ export const initPassport = () => {
             return res.status(400).json({ error: `Credenciales incorrectas.` }); */
             return done(null, false);
           }
+          delete user.password
           return done(null, user);
         } catch (error) {
           return done(error);
@@ -120,7 +130,16 @@ export const initPassport = () => {
   });
 
   passport.deserializeUser(async (id, done) => {
-    let user = await u.getBy({ _id: id });
-    return done(null, user);
+    let user
+    if(id==="idAdmin"){
+        user={
+            _id: "idAdmin", first_name: "admin", email: "adminCoder@coder.com", 
+            cart: "6674b594b7a3908ed1fd64cf", rol: "admin"
+        }
+    }
+    else{
+    user = await u.getBy({ _id: id });
+  }
+  return done(null, user);
   });
 };
