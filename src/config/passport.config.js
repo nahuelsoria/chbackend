@@ -1,5 +1,6 @@
 import passport from "passport";
 import local from "passport-local";
+import github from "passport-github2";
 import { UserManagerMongo as UserManager } from "../dao/UserManagerMongo.js";
 import { CartManagerMongo as CartManager } from "../dao/CartManagerMongo.js";
 import { generaHash, validaPassword } from "../utils.js";
@@ -79,6 +80,31 @@ export const initPassport = () => {
             /* res.setHeader("Content-Type", "application/json");
             return res.status(400).json({ error: `Credenciales incorrectas.` }); */
             return done(null, false);
+          }
+          return done(null, user);
+        } catch (error) {
+          return done(error);
+        }
+      }
+    )
+  );
+
+  passport.use(
+    "github",
+    new github.Strategy(
+      {
+        clientID: "Iv23liNbEfsUOaxQTbfT",
+        clientSecret: "d033c87e82dcf7ef9d5bdcc83d14213eb4f53ac5",
+        callbackURL: "http://localhost:8080/api/sessions/callbackGithub"
+      },
+      async (tokenAcceso, tokenRefresh, profile, done) => {
+        try {
+          //console.log(profile)
+          let email = profile._json.email;
+          let name = profile._json.name;
+          let user = await u.getBy({ email });
+          if (!user) {
+            user = await u.create({ name, email, profile });
           }
           return done(null, user);
         } catch (error) {

@@ -36,7 +36,6 @@ app.use(
 );
 
 //Paso 2 de Passport
-
 initPassport()
 app.use(passport.initialize())
 app.use(passport.session()); //Solo si uso sessions.

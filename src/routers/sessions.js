@@ -19,6 +19,18 @@ router.get("/error", (req, res)=>{
   )
 })
 
+router.get("/github", passport.authenticate("github",{}), (req, res)=>{
+
+})
+
+router.get("/callbackGithub", passport.authenticate("github", {failureRedirect:"/api/sessions/error"}) , (req, res)=>{
+
+  req.session.user = req.user
+
+  res.setHeader('Content-Type','application/json');  
+  return res.status(200).json({payload:req.user});
+})
+
 //Paso 3 de Passport.
 router.post("/register", passport.authenticate("register", {failureRedirect: "/api/sessions/error"}) , async (req, res) => {
   /* let { first_name, last_name, email, password, age, rol } = req.body;
