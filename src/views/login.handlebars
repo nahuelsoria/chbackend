@@ -1,7 +1,7 @@
 <div id="login-form-container">
     <h2 id="login-form-title">Login:</h2>
-    <hr>
-    <form id="login-form" action="/api/sessions/login" method="post">
+    <hr> 
+    <form onsubmit="login(event)" id="login-form" action="/api/sessions/login" method="post"> 
 
         {{#if error}}
         <div id="error-message">{{error}}</div>
@@ -24,3 +24,5 @@
         <a id="link-2" href="/register">Registrate</a>
     </li>
 </ul>
+
+<script src="js/login.js"></script>
