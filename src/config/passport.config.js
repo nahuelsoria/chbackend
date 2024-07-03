@@ -4,11 +4,42 @@ import github from "passport-github2";
 import { UserManagerMongo as UserManager } from "../dao/UserManagerMongo.js";
 import { CartManagerMongo as CartManager } from "../dao/CartManagerMongo.js";
 import { generaHash, validaPassword } from "../utils.js";
+import passportJWT from "passport-jwt"
+import {SECRET} from "../utils.js"
 
 const u = new UserManager();
 const c = new CartManager();
 
+const buscaToken=(req)=>{
+  let token = null
+
+  if(req.cookies["codercookie"]){
+    token=req.cookies["codercookie"]
+  }
+
+  return token
+}
+
 export const initPassport = () => {
+ 
+
+  passport.use(
+    "jwt",
+    new passportJWT.Strategy(
+      {
+        secretOrKey: SECRET,
+        jwtFromRequest: new passportJWT.ExtractJwt.fromExtractors([buscaToken])
+      },
+      async (contentToken ,done)=>{ //Usuario (El token suele tener datos del usuario)
+        try {
+          return done(null, contentToken)
+        } catch (error) {
+          return done(error)
+        }
+      }
+    )
+  )
+
   passport.use(
     "register",
     new local.Strategy(

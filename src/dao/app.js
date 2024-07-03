@@ -15,6 +15,9 @@ import { router as sessionsRouter } from "../routers/sessions.js";
 import MongoStore from "connect-mongo";
 import passport from "passport";
 import { initPassport } from "../config/passport.config.js";
+import jwt from "jsonwebtoken"
+import { UserManagerMongo } from "./UserManagerMongo.js";
+import { SECRET, validaPassword } from "../utils.js";
 //import FileStore from 'session-file-store'
 
 const app = express();
@@ -38,7 +41,7 @@ app.use(
 //Paso 2 de Passport
 initPassport()
 app.use(passport.initialize())
-app.use(passport.session()); //Solo si uso sessions.
+//app.use(passport.session()); //Solo si uso sessions.
 
 app.engine("handlebars", engine());
 app.set("view engine", "handlebars");
@@ -60,6 +63,11 @@ app.get("/", (req, res) => {
   res.setHeader("Content-Type", "text/plain");
   res.redirect("/login");
 });
+
+app.get("/user", passport.authenticate("jwt", {session:false}) , (req, res)=>{
+  res.setHeader("Content-Type", "application/json");
+  res.status(200).json("OK");
+})
 
 app.get("/datos", auth, (req, res) => {
   res.setHeader("Content-Type", "application/json");
@@ -100,7 +108,38 @@ app.get("/logout", (req, res) => {
   res.redirect("/login");
 });
 
-app.get("/setcookies", (req, res) => {
+app.post('/login', async (req,res)=>{
+  let {email, password}=req.body
+  if(!email || !password) return res.status(400).send('Ingrese email y password')
+  let u = new UserManagerMongo()
+  let user = await u.getBy({ email: email });
+          if (!user) {
+                        res.setHeader("Content-Type", "application/json");
+            return res.status(400).json({ error: `Credenciales incorrectas.` });
+          }
+
+  if (!validaPassword(password, user.password)) {
+    res.setHeader("Content-Type", "application/json");
+    return res.status(400).json({ error: `Credenciales incorrectas.` })
+  }
+
+  //console.log({user})
+  if(!user) return res.status(400).send(`Error credenciales`)
+
+  user={...user}
+  delete user.password
+
+  let token=jwt.sign(user, SECRET, {expiresIn: "1h"})
+  res.cookie("codercookie", token, {httpOnly: true})
+
+  return res.status(200).json({
+      usuarioLogueado:user,
+      token
+  })
+
+})
+
+/* app.get("/setcookies", (req, res) => {
   let datos = { nombre: "Juan", rol: "user" };
 
   res.cookie("cookie1", "valor cookie 1", {});
@@ -126,12 +165,12 @@ app.get("/getcookies", (req, res) => {
 app.get("/delcookies", (req, res) => {
   //res.clearCookie("cookie2") Elimina una cookie determinada.
 
-  Object.keys(req.cookies).forEach((c) => res.clearCookie(c));
-  Object.keys(req.signedCookies).forEach((c) => res.clearCookie(c));
+  //Object.keys(req.cookies).forEach((c) => res.clearCookie(c));
+  //Object.keys(req.signedCookies).forEach((c) => res.clearCookie(c));
 
   res.setHeader("Content-Type", "application/json");
   res.status(200).json({ msg: "Cookies eliminadas." });
-});
+}); */
 
 let usuarios = [];
 //let mensajes = [];

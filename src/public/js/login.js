@@ -1,7 +1,7 @@
 const login = async(e) =>{
     e.preventDefault()
     let [email, password] = new FormData(document.getElementById("login-form")).values()
-    //console.log(email, password)
+    console.log({email, password})
     let body = {email, password}
 
     let respuesta = await fetch("/api/sessions/login", {
@@ -13,10 +13,10 @@ const login = async(e) =>{
     } )
 
     let datos = respuesta
-    //console.log({datos})
-    if(respuesta.ok){
+    console.log({datos})
+    /* if(respuesta.ok){
         window.location.href="/profile"
     }else{
         window.location.href="/login?error=Error al validar"
-    }
+    } */
 }

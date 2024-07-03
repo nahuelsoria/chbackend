@@ -3,6 +3,7 @@ import { UserManagerMongo as UserManager } from "../dao/UserManagerMongo.js";
 import { generaHash, validaPassword } from "../utils.js";
 import { CartManagerMongo as CartManager } from "../dao/CartManagerMongo.js";
 import passport from "passport";
+import SECRET from "../utils.js"
 
 export const router = Router();
 

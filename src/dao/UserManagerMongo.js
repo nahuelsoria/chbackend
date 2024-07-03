@@ -6,6 +6,10 @@ export class UserManagerMongo {
     return nuevoUsuario.toJSON();
   }
 
+  async getUsers(){
+    return await usersModelo.find()
+  }
+
   async getBy(filtro = {}) {
     return await usersModelo.findOne(filtro).lean();
   }
